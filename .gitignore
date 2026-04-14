@@ -33,7 +33,7 @@ pip-wheel-metadata/
 .env
 .env.*
 !.env.example
-.gitignoire
+.gitignore
 
 # Logs and debug
 logs/

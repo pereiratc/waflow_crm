@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-# waflow_crm
 WhatsApp flow CRM API
 =======
-# WaFlow CRM (Foundation)
+
 
 This repository is the foundation for a SaaS-style WhatsApp CRM:
 - multi-tenant (organizations)

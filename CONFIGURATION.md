@@ -99,6 +99,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for how this ties to HTTPS and your public UR
 | Variable | Purpose |
 |----------|---------|
 | `NEXT_PUBLIC_API_URL` | Base URL of the API **as requested by the browser** (e.g. `http://localhost:8000`). Use `apps/frontend/.env.local` when running `npm run dev` on the host. With **`docker compose`** (dev), the **`frontend`** service reads this from the repo `.env`; it must stay a **host-reachable** URL (same host/port you publish for `backend`), not `http://backend:8000`. |
+| `NEXT_PUBLIC_REALTIME_URL` | Socket.IO gateway URL for the **Realtime** page (default `http://localhost:4001`). Must match where **`realtime`** is published for the browser. |
 
 `docker-compose.prod.yml` bakes **`NEXT_PUBLIC_API_URL`** into the production image at **build time**; changing it requires a rebuild.
 

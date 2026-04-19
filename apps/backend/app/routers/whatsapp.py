@@ -194,6 +194,31 @@ def upsert_phone_route(
     return {"ok": True}
 
 
+@router.get("/phone-routes")
+def list_phone_routes(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role not in {"admin", "manager"}:
+        raise HTTPException(status_code=403, detail="Not allowed")
+
+    rows = db.execute(
+        select(WhatsappPhoneRoute)
+        .where(WhatsappPhoneRoute.organization_id == current_user.organization_id)
+        .order_by(WhatsappPhoneRoute.created_at.desc())
+    ).scalars().all()
+
+    return [
+        {
+            "id": str(r.id),
+            "phone_number_id": r.phone_number_id,
+            "is_active": r.is_active,
+            "created_at": r.created_at.isoformat() if r.created_at else None,
+        }
+        for r in rows
+    ]
+
+
 # Shown in Swagger/OpenAPI so "Try it out" has a JSON body editor (no file upload).
 # Replace phone_number_id with a value from POST /api/whatsapp/phone-route.
 WHATSAPP_WEBHOOK_BODY_EXAMPLE = {

@@ -21,3 +21,9 @@ def test_contacts_list_requires_auth():
     with TestClient(app) as client:
         r = client.get("/api/contacts")
         assert r.status_code == 401
+
+
+def test_whatsapp_phone_routes_requires_auth():
+    with TestClient(app) as client:
+        r = client.get("/api/whatsapp/phone-routes")
+        assert r.status_code == 401

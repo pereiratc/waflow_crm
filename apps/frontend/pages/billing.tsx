@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Layout } from "../components/Layout";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { API_BASE, apiErrorMessage, authHeaders } from "../lib/api";
 
 type Usage = {
   plan: string;
@@ -10,13 +9,6 @@ type Usage = {
   limits: { users: number; automation_rules: number };
   usage: { users: number; automation_rules: number };
 };
-
-function authHeaders(): HeadersInit {
-  const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
-  const h: Record<string, string> = { "Content-Type": "application/json" };
-  if (token) h.Authorization = `Bearer ${token}`;
-  return h;
-}
 
 export default function BillingPage() {
   const router = useRouter();
@@ -52,8 +44,7 @@ export default function BillingPage() {
       body: JSON.stringify({ plan }),
     });
     if (!res.ok) {
-      const b = await res.json().catch(() => ({}));
-      setErr(b.detail || "Failed");
+      setErr(await apiErrorMessage(res));
       return;
     }
     setMsg("Plan updated.");
@@ -69,11 +60,11 @@ export default function BillingPage() {
       headers: authHeaders(),
       body: JSON.stringify({}),
     });
-    const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-      setErr(typeof data.detail === "string" ? data.detail : JSON.stringify(data));
+      setErr(await apiErrorMessage(res));
       return;
     }
+    const data = await res.json().catch(() => ({}));
     setMsg(JSON.stringify(data));
   }
 

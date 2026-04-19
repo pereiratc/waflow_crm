@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import Link from "next/link";
+import { API_BASE, apiErrorMessage } from "../lib/api";
 
 export default function Login() {
   const router = useRouter();
@@ -27,8 +27,7 @@ export default function Login() {
       });
 
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body?.detail || "Login failed");
+        throw new Error(await apiErrorMessage(res));
       }
 
       const data = await res.json();
@@ -82,6 +81,9 @@ export default function Login() {
 
           {error && <p style={{ color: "#fca5a5", margin: 0 }}>{error}</p>}
         </form>
+        <p style={{ marginTop: 20, fontSize: 14, opacity: 0.85 }}>
+          New organization? <Link href="/register">Create account</Link>
+        </p>
       </div>
     </div>
   );

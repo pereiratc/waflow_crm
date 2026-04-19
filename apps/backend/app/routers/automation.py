@@ -38,7 +38,8 @@ class AutomationRuleCreateRequest(BaseModel):
     enabled: bool = True
     trigger_type: str = Field(min_length=1, max_length=50)
     conditions: dict = Field(default_factory=dict)
-    actions: dict = Field(default_factory=dict)
+    # Stored as JSON; engine accepts either a list of action objects or a single-object map.
+    actions: dict | list = Field(default_factory=list)
 
 
 @router.post("/rules")

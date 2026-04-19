@@ -19,13 +19,17 @@ This repository is the foundation for a SaaS-style WhatsApp CRM:
 
 | Backend area | Covered in the Next.js UI |
 |--------------|---------------------------|
-| `POST /api/auth/login`, `GET /api/auth/me` | Login page, dashboard |
-| `POST /api/auth/register` | Not wired (use API or curl) |
-| Inbox (list, assign, filters, metrics, send) | List, assign, filters, metrics; send is **text only** (no template/media UI) |
-| Pipeline / leads | Read-only table (no create/move/Kanban) |
-| `GET /api/billing/usage`, mock subscribe, test email | Billing page |
-| Contacts, automation rules, WhatsApp phone-route | No dedicated pages |
-| Socket.IO realtime | No client yet |
+| Auth: login, register, me | `/login`, `/register`, `/` dashboard |
+| Inbox (conversations, assign, filters, messages, attachments, send) | `/inbox` — text, templates, Meta media id, file upload + send |
+| Pipeline, stages, leads, move stage, patch | `/pipeline` — create pipeline (admin/manager), create lead, stage/priority/assignee |
+| Contacts list / get / patch | `/contacts` |
+| Automation rules | `/automation` |
+| Team users | `/team` |
+| WhatsApp phone routes + webhook URL hint | `/whatsapp` |
+| Billing usage, mock subscribe, test email | `/billing` |
+| Health / ready | `/status` (no auth) |
+| Socket.IO | `/realtime` (CDN client; set `NEXT_PUBLIC_REALTIME_URL`) |
+| Meta inbound webhook | Configure at Meta → hits API directly (not a UI form) |
 
 ## Production deployment
 

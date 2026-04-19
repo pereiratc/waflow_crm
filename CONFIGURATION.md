@@ -87,6 +87,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for how this ties to HTTPS and your public UR
 |----------|---------|
 | `POSTGRES_*` | DB name, user, password, host port. |
 | `BACKEND_PORT` | Host port for API (default `8000`). |
+| `FRONTEND_PORT` | Host port for the **dev** Next.js service in `docker-compose.yml` (default `3000`). |
 | `REDIS_PORT` | Host port for Redis. |
 | `REALTIME_PORT` | Socket.IO service (default `4001`). |
 | `CORS_ORIGIN` | Passed to realtime service for browser clients. |
@@ -97,7 +98,9 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for how this ties to HTTPS and your public UR
 
 | Variable | Purpose |
 |----------|---------|
-| `NEXT_PUBLIC_API_URL` | Base URL of the API (e.g. `http://localhost:8000`). Set in `apps/frontend/.env.local` if the API is not on the same origin. |
+| `NEXT_PUBLIC_API_URL` | Base URL of the API **as requested by the browser** (e.g. `http://localhost:8000`). Use `apps/frontend/.env.local` when running `npm run dev` on the host. With **`docker compose`** (dev), the **`frontend`** service reads this from the repo `.env`; it must stay a **host-reachable** URL (same host/port you publish for `backend`), not `http://backend:8000`. |
+
+`docker-compose.prod.yml` bakes **`NEXT_PUBLIC_API_URL`** into the production image at **build time**; changing it requires a rebuild.
 
 ---
 

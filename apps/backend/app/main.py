@@ -17,6 +17,7 @@ from app.routers.billing import router as billing_router
 from app.routers.team import router as team_router
 from app.routers.contacts import router as contacts_router
 
+# This file is the main entry point for the FastAPI application. It sets up the app, middleware, and routes.
 
 def seed_admin_if_configured(db: Session) -> None:
     """
